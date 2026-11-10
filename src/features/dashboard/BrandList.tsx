@@ -1,17 +1,23 @@
 import type { Brand } from "../../types/brand";
-import { ChangeRate } from "../../components/change-rate/ChangeRate";
-import { formatInteger } from "../../utils/format";
+import BrandCard from "./BrandCard";
+import './BrandList.css';
 
-export const BrandList = ({ brandList }: { brandList: Brand[] }) => {
+type BrandListProps = {
+    brandList: Brand[];
+    selectedBrand: Brand | null;
+    onBrandSelect: (brand: Brand) => void;
+};
+
+const BrandList = ({ brandList, selectedBrand, onBrandSelect }: BrandListProps) => {
     return (
         <div className="brand-list">
             {brandList.length > 0 ? brandList.map((brand) => (
-                <div key={brand.brandSeq} className="brand-item">
-                    <h3>{brand.brandName}</h3>
-                    <p>Buzz Volume: {formatInteger(brand.buzzVolume)}건</p>
-                    <p>Buzz Growth: <ChangeRate changeRate={brand.buzzGrowth} unit="%" /></p>
-                </div>
-                 
+                 <BrandCard 
+                     key={brand.brandSeq} 
+                     brand={brand} 
+                     isSelected={selectedBrand?.brandSeq === brand.brandSeq}
+                     onClick={() => onBrandSelect(brand)}
+                 />
             )) : (
                 <p>등록된 브랜드가 없습니다</p>
             )}
@@ -20,3 +26,6 @@ export const BrandList = ({ brandList }: { brandList: Brand[] }) => {
         </div>
     )
 }   
+
+export default BrandList;
+

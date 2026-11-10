@@ -1,0 +1,15 @@
+.brand-item {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #DCDFE4;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.brand-item:hover {
+    background-color: #F5F6F8;
+}
+
+.brand-item.is-active {
+    background-color: #F5FBFD;
+}
