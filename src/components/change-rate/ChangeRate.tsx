@@ -1,13 +1,12 @@
 import './ChangeRate.css';
 import { formatDecimal } from '../../utils/format'; 
 
-export const ChangeRate = ({
-    changeRate,
-    unit,
-}: {
+type ChangeRateProps = {
     changeRate: number;
     unit?: string;
-}) => {
+};  
+
+const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
     const roundedRate = Number(changeRate.toFixed(1));
     const growthType =
         roundedRate === 0
@@ -32,3 +31,5 @@ export const ChangeRate = ({
         </span>
     );
 };
+
+export default ChangeRate;
