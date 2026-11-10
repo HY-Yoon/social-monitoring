@@ -1,3 +1,5 @@
+const integerFormatter = new Intl.NumberFormat('ko-KR');
+
 const numberFormatters = new Map<number, Intl.NumberFormat>();
 
 const getNumberFormatter = (fractionDigits: number): Intl.NumberFormat => {
@@ -5,6 +7,7 @@ const getNumberFormatter = (fractionDigits: number): Intl.NumberFormat => {
         numberFormatters.set(
             fractionDigits,
             new Intl.NumberFormat('ko-KR', {
+                minimumFractionDigits: fractionDigits,
                 maximumFractionDigits: fractionDigits,
             }),
         );
@@ -12,8 +15,6 @@ const getNumberFormatter = (fractionDigits: number): Intl.NumberFormat => {
 
     return numberFormatters.get(fractionDigits)!;
 };
-
-const integerFormatter = new Intl.NumberFormat('ko-KR');
 
 export const formatInteger = (count: number): string => {
     return integerFormatter.format(count);
