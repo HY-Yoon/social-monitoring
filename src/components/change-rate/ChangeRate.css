@@ -1,0 +1,14 @@
+.change-rate{
+    display: inline-flex;
+    align-items: center;
+}
+
+
+.is-positive{
+    color: #31A861;
+}
+
+
+.is-negative{    
+    color: #FF912D;
+}
