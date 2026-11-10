@@ -1,13 +1,6 @@
 const numberFormatters = new Map<number, Intl.NumberFormat>();
 
-export const formatInteger = (count: number): string => {
-    return new Intl.NumberFormat('ko-KR').format(count);
-};
-
-export const formatDecimal = (
-    count: number,
-    fractionDigits = 1,
-): string => {
+const getNumberFormatter = (fractionDigits: number): Intl.NumberFormat => {
     if (!numberFormatters.has(fractionDigits)) {
         numberFormatters.set(
             fractionDigits,
@@ -17,5 +10,18 @@ export const formatDecimal = (
         );
     }
 
-    return numberFormatters.get(fractionDigits)!.format(count);
+    return numberFormatters.get(fractionDigits)!;
+};
+
+const integerFormatter = new Intl.NumberFormat('ko-KR');
+
+export const formatInteger = (count: number): string => {
+    return integerFormatter.format(count);
+};
+
+export const formatDecimal = (
+    count: number,
+    fractionDigits = 1,
+): string => {
+    return getNumberFormatter(fractionDigits).format(count);
 };
