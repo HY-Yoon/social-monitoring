@@ -10,7 +10,6 @@ type BrandCardProps = {
 };
 
 const BrandCard = ({ brand, isSelected, onClick }: BrandCardProps) => {
-
     return (
         <div className={`brand-item ${isSelected ? 'is-active' : ''}`} onClick={onClick}>
             <h3>{brand.brandName}</h3>

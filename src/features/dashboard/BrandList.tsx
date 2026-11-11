@@ -4,8 +4,8 @@ import './BrandList.css';
 
 type BrandListProps = {
     brandList: Brand[];
-    selectedBrand: Brand | null;
-    onBrandSelect: (brand: Brand) => void;
+    selectedBrand: number | null;
+    onBrandSelect: (brandSeq: number) => void;
 };
 
 const BrandList = ({ brandList, selectedBrand, onBrandSelect }: BrandListProps) => {
@@ -15,8 +15,8 @@ const BrandList = ({ brandList, selectedBrand, onBrandSelect }: BrandListProps) 
                  <BrandCard 
                      key={brand.brandSeq} 
                      brand={brand} 
-                     isSelected={selectedBrand?.brandSeq === brand.brandSeq}
-                     onClick={() => onBrandSelect(brand)}
+                     isSelected={selectedBrand === brand.brandSeq}
+                     onClick={() => onBrandSelect(brand.brandSeq)}
                  />
             )) : (
                 <p>등록된 브랜드가 없습니다</p>
