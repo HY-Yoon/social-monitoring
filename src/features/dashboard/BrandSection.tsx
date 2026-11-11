@@ -43,7 +43,8 @@ const BrandSection = () => {
             case 'name':
             return a.brandName.localeCompare(b.brandName);
             default:
-            return 0;
+                const exhaustiveCheck: never = order;
+                throw new Error(`Unhandled order option: ${exhaustiveCheck}`);
         }
     });
 
@@ -74,7 +75,7 @@ const BrandSection = () => {
             )}
 
             <Panel title="브랜드 목록">
-                <BrandList brandList={sortedBrandList} selectedBrand={selectedBrandSeq} onBrandSelect={handleBrandSelect} />
+                <BrandList brandList={sortedBrandList} selectedBrandSeq={selectedBrandSeq} onBrandSelect={handleBrandSelect} />
             </Panel>
         </>
     )

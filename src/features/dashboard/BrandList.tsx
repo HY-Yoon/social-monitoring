@@ -4,18 +4,18 @@ import './BrandList.css';
 
 type BrandListProps = {
     brandList: Brand[];
-    selectedBrand: number | null;
+    selectedBrandSeq: number | null;
     onBrandSelect: (brandSeq: number) => void;
 };
 
-const BrandList = ({ brandList, selectedBrand, onBrandSelect }: BrandListProps) => {
+const BrandList = ({ brandList, selectedBrandSeq, onBrandSelect }: BrandListProps) => {
     return (
         <div className="brand-list">
             {brandList.length > 0 ? brandList.map((brand) => (
                  <BrandCard 
                      key={brand.brandSeq} 
                      brand={brand} 
-                     isSelected={selectedBrand === brand.brandSeq}
+                     isSelected={selectedBrandSeq === brand.brandSeq}
                      onClick={() => onBrandSelect(brand.brandSeq)}
                  />
             )) : (
