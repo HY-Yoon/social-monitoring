@@ -6,7 +6,7 @@ type ChangeRate = {
     displayRate : string,
 }
 
-export const ChangeRateInfo = (value: number): ChangeRate => {
+export const getChangeRateInfo = (value: number): ChangeRate => {
     const roundedRate = Number(value.toFixed(1));
     const growthType = roundedRate === 0
             ? 'neutral'

@@ -4,7 +4,7 @@ import { formatInteger } from "../../utils/format";
 import BrandList from "./BrandList";
 import Panel from "../../components/panel/Panel";
 import BrandFilter from "./BrandFilter";
-import { ChangeRateInfo } from "../../utils/changeRate";
+import { getChangeRateInfo } from "../../utils/changeRate";
 
 type BrandFilters = {
     order: OrderValue, 
@@ -43,7 +43,7 @@ const BrandSection = () => {
         const matchesSearchKeyword = brand.brandName.toLowerCase().includes(normalizedSearchKeyword);
 
         // 증감률 필터링
-        const { growthType } = ChangeRateInfo(brand.buzzGrowth);
+        const { growthType } = getChangeRateInfo(brand.buzzGrowth);
 
         const matchesRateFilter = rateFilter === 'all' || 
             rateFilter === growthType;
