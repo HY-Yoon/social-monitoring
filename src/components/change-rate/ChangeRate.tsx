@@ -1,5 +1,5 @@
 import './ChangeRate.css';
-import { changeRateDatas } from '../../utils/changeRate';
+import { ChangeRateInfo } from '../../utils/changeRate';
 
 type ChangeRateProps = {
     changeRate: number;
@@ -7,7 +7,7 @@ type ChangeRateProps = {
 };  
 
 const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
-    const { changeIcon, growthType, displayRate } = changeRateDatas(changeRate);
+    const { changeIcon, growthType, displayRate } = ChangeRateInfo(changeRate);
 
     const isNeutral = growthType === 'neutral';
 
