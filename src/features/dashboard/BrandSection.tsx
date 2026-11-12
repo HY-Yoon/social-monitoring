@@ -68,7 +68,7 @@ const BrandSection = () => {
     }
 
     const handleBrandSelect = (brandSeq: number) => {
-        setSelectedBrandSeq(selectedBrandSeq === brandSeq ? null : brandSeq);
+        setSelectedBrandSeq((value) => value === brandSeq ? null : brandSeq);
     }
 
     const isFiltered = order !== DEFAULT_FILTERS.order || rateFilter !== DEFAULT_FILTERS.rateFilter || searchKeyword !== DEFAULT_FILTERS.searchKeyword;
