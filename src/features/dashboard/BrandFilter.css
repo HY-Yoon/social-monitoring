@@ -1,0 +1,13 @@
+.brand-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-item:hover {
+    background-color: #F5F6F8;
+}
+
+.brand-item.is-active {
+    background-color: #F5FBFD;
+}
