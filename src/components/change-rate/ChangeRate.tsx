@@ -1,5 +1,5 @@
 import './ChangeRate.css';
-import { formatDecimal } from '../../utils/format'; 
+import { ChangeRateInfo } from '../../utils/changeRate';
 
 type ChangeRateProps = {
     changeRate: number;
@@ -7,19 +7,9 @@ type ChangeRateProps = {
 };  
 
 const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
-    const roundedRate = Number(changeRate.toFixed(1));
-    const growthType =
-        roundedRate === 0
-            ? 'neutral'
-            : roundedRate < 0
-              ? 'negative'
-              : 'positive';
-
-    const changeIcon =
-        growthType === 'positive' ? '▲' : growthType === 'negative' ? '▼' : '';
+    const { changeIcon, growthType, displayRate } = ChangeRateInfo(changeRate);
 
     const isNeutral = growthType === 'neutral';
-    const displayRate = formatDecimal(Math.abs(roundedRate));
 
     return (
         <span className={`is-${growthType} change-rate`}>

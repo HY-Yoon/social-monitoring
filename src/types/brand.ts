@@ -4,3 +4,7 @@ export type Brand = {
   buzzVolume: number,
   buzzGrowth: number,
 }
+
+export type OrderValue = 'volume' | 'growth' | 'name';
+
+export type RateFilterValue = 'all' | 'positive' | 'negative' | 'neutral';
