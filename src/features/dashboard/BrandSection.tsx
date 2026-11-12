@@ -93,6 +93,8 @@ const BrandSection = () => {
         setOrder(DEFAULT_FILTERS.order);
         setRateFilter(DEFAULT_FILTERS.rateFilter);
         setSearchKeyword(DEFAULT_FILTERS.searchKeyword);
+
+        setSelectedBrandSeq(null);
     }
 
     return (
