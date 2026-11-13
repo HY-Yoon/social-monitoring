@@ -1,20 +1,18 @@
-import { formatDecimal } from "./format";
+import { formatDecimal } from './format';
 
 type ChangeRate = {
-    changeIcon : string,
-    growthType : 'positive' | 'negative' | 'neutral',
-    displayRate : string,
-}
+  changeIcon: string;
+  growthType: 'positive' | 'negative' | 'neutral';
+  displayRate: string;
+};
 
 export const getChangeRateInfo = (value: number): ChangeRate => {
-    const roundedRate = Number(value.toFixed(1));
-    const growthType = roundedRate === 0
-            ? 'neutral'
-            : roundedRate < 0 ? 'negative' : 'positive';
+  const roundedRate = Number(value.toFixed(1));
+  const growthType = roundedRate === 0 ? 'neutral' : roundedRate < 0 ? 'negative' : 'positive';
 
-    const changeIcon = growthType === 'positive' ? '▲' : growthType === 'negative' ? '▼' : '';
+  const changeIcon = growthType === 'positive' ? '▲' : growthType === 'negative' ? '▼' : '';
 
-    const displayRate = formatDecimal(Math.abs(roundedRate));
+  const displayRate = formatDecimal(Math.abs(roundedRate));
 
-    return { changeIcon, growthType, displayRate };
-}
+  return { changeIcon, growthType, displayRate };
+};

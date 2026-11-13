@@ -5,7 +5,7 @@ function App() {
     <>
       <BrandSection />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
