@@ -1,6 +1,6 @@
-import ChangeRate from '../../components/change-rate/ChangeRate';
-import type { Brand } from '../../types/brand';
-import { formatInteger } from '../../utils/format';
+import ChangeRate from '@/components/change-rate/ChangeRate';
+import type { Brand } from '@/types/brand';
+import { formatInteger } from '@/utils/format';
 import './BrandCard.css';
 
 type BrandCardProps = {
