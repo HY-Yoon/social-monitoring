@@ -1,5 +1,5 @@
-.brand-list{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.brand-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

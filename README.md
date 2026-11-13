@@ -11,6 +11,7 @@ Vue 실무 경험을 바탕으로 React와 Next.js 기반 서비스를 처음부
 ## 주요 기능
 
 ### 구현됨
+
 - [x] 브랜드별 언급량 목록과 전체 언급량 합계
 - [x] 전일 대비 증감률 표시 (상승 ▲ / 하락 ▼ / 변동 없음 -)
 - [x] 정렬: 언급량순, 증감률순, 이름순
@@ -20,6 +21,7 @@ Vue 실무 경험을 바탕으로 React와 Next.js 기반 서비스를 처음부
 - [x] 결과 건수 표시, 빈 결과 상태 구분 (데이터 없음 / 조건 불일치)
 
 ### 예정
+
 - [ ] 기간별 언급량 추이 차트
 - [ ] 채널별 게시물·언급량 분석
 - [ ] 긍정·부정·중립 감성 분석
@@ -34,26 +36,26 @@ Vue 실무 경험을 바탕으로 React와 Next.js 기반 서비스를 처음부
 
 ### 현재 사용 중
 
-| 분류 | 기술 |
-|---|---|
-| UI | React 19 |
+| 분류 | 기술       |
+| ---- | ---------- |
+| UI   | React 19   |
 | 언어 | TypeScript |
-| 빌드 | Vite 8 |
-| 린트 | Oxlint |
+| 빌드 | Vite 8     |
+| 린트 | Oxlint     |
 
 ### 도입 예정
 
 학습 단계에 맞춰 필요해지는 시점에 도입합니다.
 
-| 분류 | 기술 |
-|---|---|
-| 라우팅·서버 상태 | React Router, TanStack Query |
-| 클라이언트 상태 | Zustand |
-| 스타일·차트 | Tailwind CSS, ECharts |
-| 백엔드 | Node.js, Fastify, PostgreSQL, Prisma, Zod |
-| 테스트 | Vitest, React Testing Library, MSW, Playwright |
-| 배포·운영 | Docker, GitHub Actions, Vercel |
-| 확장 | Next.js App Router |
+| 분류             | 기술                                           |
+| ---------------- | ---------------------------------------------- |
+| 라우팅·서버 상태 | React Router, TanStack Query                   |
+| 클라이언트 상태  | Zustand                                        |
+| 스타일·차트      | Tailwind CSS, ECharts                          |
+| 백엔드           | Node.js, Fastify, PostgreSQL, Prisma, Zod      |
+| 테스트           | Vitest, React Testing Library, MSW, Playwright |
+| 배포·운영        | Docker, GitHub Actions, Vercel                 |
+| 확장             | Next.js App Router                             |
 
 <br>
 
@@ -99,14 +101,14 @@ src/
 
 기능을 구현하면서 정한 원칙입니다. 결정 과정과 대안 검토는 각 PR에 기록되어 있습니다.
 
-| 원칙 | 적용 | PR |
-|---|---|---|
-| **state는 읽고 바꾸는 컴포넌트들의 가장 가까운 공통 부모에 둔다.** 처음부터 위로 올리지 않고, 사용하는 곳 가까이에 두었다가 필요해지면 끌어올린다. | 정렬·필터·선택 state를 `App`이 아닌 `BrandSection`에 배치 | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4) |
-| **계산할 수 있는 값은 state에 저장하지 않는다.** state에는 사용자 입력만 두고, 결과는 렌더 중에 계산한다. | 걸러지고 정렬된 목록, 결과 건수, 빈 결과 문구 | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4), [#6](https://github.com/HY-Yoon/social-monitoring/pull/6) |
-| **같은 데이터를 두 곳에 저장하지 않는다.** 선택 state에는 객체가 아니라 id만 저장한다. | `selectedBrandSeq`로 원본에서 조회 | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4) |
-| **변경을 감시하지 않고, 변경을 일으킨 이벤트에서 처리한다.** `useEffect`로 state를 맞추지 않는다. | 목록 조건이 바뀌면 이벤트 핸들러에서 선택 해제 | [#6](https://github.com/HY-Yoon/social-monitoring/pull/6) |
-| **판정과 표시는 같은 기준을 쓴다.** 반올림한 숫자 하나로 판정하고, 그 값을 포맷해 표시한다. | 증감률 판정 로직을 util로 분리해 표시와 필터가 공유 | [#2](https://github.com/HY-Yoon/social-monitoring/pull/2), [#6](https://github.com/HY-Yoon/social-monitoring/pull/6) |
-| **렌더는 순수하게 유지한다.** 렌더 중에 외부 값을 변경하지 않는다. | `sort()` 대신 `toSorted()` | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4) |
+| 원칙                                                                                                                                               | 적용                                                      | PR                                                                                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **state는 읽고 바꾸는 컴포넌트들의 가장 가까운 공통 부모에 둔다.** 처음부터 위로 올리지 않고, 사용하는 곳 가까이에 두었다가 필요해지면 끌어올린다. | 정렬·필터·선택 state를 `App`이 아닌 `BrandSection`에 배치 | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4)                                                            |
+| **계산할 수 있는 값은 state에 저장하지 않는다.** state에는 사용자 입력만 두고, 결과는 렌더 중에 계산한다.                                          | 걸러지고 정렬된 목록, 결과 건수, 빈 결과 문구             | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4), [#6](https://github.com/HY-Yoon/social-monitoring/pull/6) |
+| **같은 데이터를 두 곳에 저장하지 않는다.** 선택 state에는 객체가 아니라 id만 저장한다.                                                             | `selectedBrandSeq`로 원본에서 조회                        | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4)                                                            |
+| **변경을 감시하지 않고, 변경을 일으킨 이벤트에서 처리한다.** `useEffect`로 state를 맞추지 않는다.                                                  | 목록 조건이 바뀌면 이벤트 핸들러에서 선택 해제            | [#6](https://github.com/HY-Yoon/social-monitoring/pull/6)                                                            |
+| **판정과 표시는 같은 기준을 쓴다.** 반올림한 숫자 하나로 판정하고, 그 값을 포맷해 표시한다.                                                        | 증감률 판정 로직을 util로 분리해 표시와 필터가 공유       | [#2](https://github.com/HY-Yoon/social-monitoring/pull/2), [#6](https://github.com/HY-Yoon/social-monitoring/pull/6) |
+| **렌더는 순수하게 유지한다.** 렌더 중에 외부 값을 변경하지 않는다.                                                                                 | `sort()` 대신 `toSorted()`                                | [#4](https://github.com/HY-Yoon/social-monitoring/pull/4)                                                            |
 
 <br>
 
@@ -122,13 +124,13 @@ src/
 
 ## 로드맵
 
-| 단계 | 내용 | 상태 |
-|---|---|---|
-| 1 | React 핵심 개념: JSX, Props, State, Hooks, TypeScript | 🚧 진행 중 |
-| 2 | 렌더링 원리, Custom Hook, React Router, TanStack Query | ⏳ |
-| 3 | 프론트엔드 아키텍처, MSW, ECharts, 대시보드 | ⏳ |
-| 4 | Node.js, Fastify, PostgreSQL, Prisma, REST API | ⏳ |
-| 5 | 프론트엔드·백엔드 통합, 인증 | ⏳ |
-| 6 | Vitest, React Testing Library, Playwright | ⏳ |
-| 7 | Docker, CI/CD, 배포, 운영 | ⏳ |
-| 8 | Next.js App Router, SSR, SSG, SEO | ⏳ |
+| 단계 | 내용                                                   | 상태       |
+| ---- | ------------------------------------------------------ | ---------- |
+| 1    | React 핵심 개념: JSX, Props, State, Hooks, TypeScript  | 🚧 진행 중 |
+| 2    | 렌더링 원리, Custom Hook, React Router, TanStack Query | ⏳         |
+| 3    | 프론트엔드 아키텍처, MSW, ECharts, 대시보드            | ⏳         |
+| 4    | Node.js, Fastify, PostgreSQL, Prisma, REST API         | ⏳         |
+| 5    | 프론트엔드·백엔드 통합, 인증                           | ⏳         |
+| 6    | Vitest, React Testing Library, Playwright              | ⏳         |
+| 7    | Docker, CI/CD, 배포, 운영                              | ⏳         |
+| 8    | Next.js App Router, SSR, SSG, SEO                      | ⏳         |

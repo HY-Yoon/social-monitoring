@@ -1,14 +1,12 @@
-.change-rate{
-    display: inline-flex;
-    align-items: center;
+.change-rate {
+  display: inline-flex;
+  align-items: center;
 }
 
-
-.is-positive{
-    color: #31A861;
+.is-positive {
+  color: #31a861;
 }
 
-
-.is-negative{    
-    color: #FF912D;
+.is-negative {
+  color: #ff912d;
 }
