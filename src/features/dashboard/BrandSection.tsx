@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import type { Brand, OrderValue, RateFilterValue } from '../../types/brand';
-import { formatInteger } from '../../utils/format';
+import type { Brand, OrderValue, RateFilterValue } from '@/types/brand';
+import { formatInteger } from '@/utils/format';
 import BrandList from './BrandList';
-import Panel from '../../components/panel/Panel';
+import Panel from '@/components/panel/Panel';
 import BrandFilter from './BrandFilter';
-import { getChangeRateInfo } from '../../utils/changeRate';
+import { getChangeRateInfo } from '@/utils/changeRate';
 
 type BrandFilters = {
   order: OrderValue;

@@ -1,5 +1,5 @@
 import './ChangeRate.css';
-import { getChangeRateInfo } from '../../utils/changeRate';
+import { getChangeRateInfo } from '@/utils/changeRate';
 
 type ChangeRateProps = {
   changeRate: number;

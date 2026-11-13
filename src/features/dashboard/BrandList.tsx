@@ -1,4 +1,4 @@
-import type { Brand } from '../../types/brand';
+import type { Brand } from '@/types/brand';
 import BrandCard from './BrandCard';
 import './BrandList.css';
 

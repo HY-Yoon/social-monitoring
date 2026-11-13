@@ -1,5 +1,5 @@
 import './BrandFilter.css';
-import type { OrderValue, RateFilterValue } from '../../types/brand';
+import type { OrderValue, RateFilterValue } from '@/types/brand';
 
 type OrderOption = {
   value: OrderValue;
