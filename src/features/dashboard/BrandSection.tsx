@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Brand, OrderValue, RateFilterValue } from '@/types/brand';
 import { formatInteger } from '@/utils/format';
 import BrandList from './BrandList';
 import Panel from '@/components/panel/Panel';
 import BrandFilter from './BrandFilter';
 import { getChangeRateInfo } from '@/utils/changeRate';
+import { fetchBrands } from '@/services/brandService';
 
 type BrandFilters = {
   order: OrderValue;
@@ -18,17 +19,20 @@ const DEFAULT_FILTERS: BrandFilters = {
   searchKeyword: '',
 };
 
-const brandList: Brand[] = [
-  { brandSeq: 1, brandName: 'Example Brand', buzzVolume: 1000, buzzGrowth: 10 },
-  { brandSeq: 2, brandName: 'Another Brand', buzzVolume: 2000, buzzGrowth: 25.4 },
-  { brandSeq: 3, brandName: 'Third Brand', buzzVolume: 3000, buzzGrowth: -0.04 },
-  { brandSeq: 4, brandName: 'Fourth Brand', buzzVolume: 4000, buzzGrowth: -85.652 },
-  { brandSeq: 5, brandName: 'Fifth Brand', buzzVolume: 5000, buzzGrowth: 0 },
-  { brandSeq: 6, brandName: 'Sixth Brand', buzzVolume: 6000, buzzGrowth: -0.05 },
-  { brandSeq: 7, brandName: 'Seventh Brand', buzzVolume: 7000, buzzGrowth: 1234.56 },
-];
+type BrandState =
+  { status: 'loading' } | { status: 'success'; data: Brand[] } | { status: 'error'; error: string };
+
+let abortController: AbortController | null = null;
 
 const BrandSection = () => {
+  const [brandState, setBrandState] = useState<BrandState>({ status: 'success', data: [] });
+  const brandList = brandState.status === 'success' ? brandState.data : [];
+
+  const isLoading = brandState.status === 'loading';
+  const error = brandState.status === 'error' ? brandState.error : null;
+
+  const [retryCount, setRetryCount] = useState<number>(0);
+
   const [order, setOrder] = useState(DEFAULT_FILTERS.order);
   const [rateFilter, setRateFilter] = useState(DEFAULT_FILTERS.rateFilter);
   const [searchKeyword, setSearchKeyword] = useState(DEFAULT_FILTERS.searchKeyword);
@@ -39,15 +43,12 @@ const BrandSection = () => {
   const selectedBrand = brandList.find((b) => b.brandSeq === selectedBrandSeq);
   const processedBrandList = brandList
     .filter((brand) => {
-      // 검색 키워드 필터링(대소문자, 앞뒤 공백 무시)
-      const matchesSearchKeyword = brand.brandName.toLowerCase().includes(normalizedSearchKeyword);
-
       // 증감률 필터링
       const { growthType } = getChangeRateInfo(brand.buzzGrowth);
 
       const matchesRateFilter = rateFilter === 'all' || rateFilter === growthType;
 
-      return matchesRateFilter && matchesSearchKeyword;
+      return matchesRateFilter;
     })
     .toSorted((a, b) => {
       switch (order) {
@@ -78,8 +79,13 @@ const BrandSection = () => {
 
   const isNoData = processedBrandList.length === 0;
 
-  const noDataText =
-    brandList.length === 0 ? '등록된 브랜드가 없습니다' : '검색 조건에 맞는 브랜드가 없습니다';
+  const noDataText = isLoading
+    ? '로딩중...'
+    : error
+      ? error
+      : !isFiltered && brandList.length === 0
+        ? '등록된 브랜드가 없습니다'
+        : '검색 조건에 맞는 브랜드가 없습니다';
 
   const handleOrderChange = (value: OrderValue) => {
     if (value !== order) {
@@ -115,6 +121,39 @@ const BrandSection = () => {
     setSearchKeyword(DEFAULT_FILTERS.searchKeyword);
   };
 
+  const getBrandList = async () => {
+    setBrandState({ status: 'loading' });
+
+    abortController?.abort();
+
+    const controller = new AbortController();
+    abortController = controller;
+
+    try {
+      const result = await fetchBrands(normalizedSearchKeyword, controller.signal);
+
+      setBrandState({ status: 'success', data: result });
+    } catch (_error) {
+      if (_error instanceof DOMException && _error.name === 'AbortError') {
+        return;
+      }
+
+      const errorMessage =
+        _error instanceof Error ? _error.message : '브랜드 목록을 불러오지 못했습니다.';
+
+      setBrandState({ status: 'error', error: errorMessage });
+      console.error('브랜드 목록 호출 실패', _error);
+    }
+  };
+
+  const retryGetBrandList = () => {
+    setRetryCount((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    getBrandList();
+  }, [normalizedSearchKeyword, retryCount]);
+
   return (
     <>
       <BrandFilter
@@ -136,7 +175,10 @@ const BrandSection = () => {
 
       <Panel title="브랜드 목록">
         {isNoData ? (
-          <p>{noDataText}</p>
+          <>
+            <p>{noDataText}</p>
+            {error && <button onClick={retryGetBrandList}>다시시도</button>}
+          </>
         ) : (
           <BrandList
             brandList={processedBrandList}
