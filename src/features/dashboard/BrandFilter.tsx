@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import './BrandFilter.css';
 import type { OrderValue, RateFilterValue } from '@/types/brand';
 
@@ -43,6 +44,8 @@ const BrandFilter = ({
   onSearchKeywordChange,
   onResetFilters,
 }: BrandFilterProps) => {
+  const keywordInputRef = useRef<HTMLInputElement | null>(null);
+
   const handleOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onOrderChange(event.target.value as OrderValue);
   };
@@ -53,6 +56,14 @@ const BrandFilter = ({
 
   const handleSearchKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearchKeywordChange(event.target.value);
+  };
+
+  const handleResetClick = () => {
+    if (keywordInputRef) {
+      keywordInputRef.current?.focus();
+    }
+
+    onResetFilters();
   };
 
   return (
@@ -72,12 +83,13 @@ const BrandFilter = ({
         ))}
       </select>
       <input
+        ref={keywordInputRef}
         type="text"
         placeholder="브랜드 검색..."
         value={searchKeyword}
         onChange={handleSearchKeywordChange}
       />
-      <button onClick={onResetFilters}>필터 초기화</button>
+      <button onClick={handleResetClick}>필터 초기화</button>
     </div>
   );
 };
