@@ -22,5 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-!.vscode/settings.json__cache/
+!.vscode/settings.json
 __cache
