@@ -59,9 +59,7 @@ const BrandFilter = ({
   };
 
   const handleResetClick = () => {
-    if (keywordInputRef) {
-      keywordInputRef.current?.focus();
-    }
+    keywordInputRef.current?.focus();
 
     onResetFilters();
   };

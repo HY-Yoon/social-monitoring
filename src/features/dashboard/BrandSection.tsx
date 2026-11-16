@@ -22,14 +22,12 @@ const DEFAULT_FILTERS: BrandFilters = {
 type BrandState =
   { status: 'loading' } | { status: 'success'; data: Brand[] } | { status: 'error'; error: string };
 
-let abortController: AbortController | null = null;
-
 const BrandSection = () => {
-  const [brandState, setBrandState] = useState<BrandState>({ status: 'success', data: [] });
+  const [brandState, setBrandState] = useState<BrandState>({ status: 'loading' });
   const brandList = brandState.status === 'success' ? brandState.data : [];
 
   const isLoading = brandState.status === 'loading';
-  const error = brandState.status === 'error' ? brandState.error : null;
+  const errorMessage = brandState.status === 'error' ? brandState.error : null;
 
   const [retryCount, setRetryCount] = useState<number>(0);
 
@@ -81,8 +79,8 @@ const BrandSection = () => {
 
   const noDataText = isLoading
     ? '로딩중...'
-    : error
-      ? error
+    : errorMessage
+      ? errorMessage
       : !isFiltered && brandList.length === 0
         ? '등록된 브랜드가 없습니다'
         : '검색 조건에 맞는 브랜드가 없습니다';
@@ -121,37 +119,38 @@ const BrandSection = () => {
     setSearchKeyword(DEFAULT_FILTERS.searchKeyword);
   };
 
-  const getBrandList = async () => {
-    setBrandState({ status: 'loading' });
-
-    abortController?.abort();
-
-    const controller = new AbortController();
-    abortController = controller;
-
-    try {
-      const result = await fetchBrands(normalizedSearchKeyword, controller.signal);
-
-      setBrandState({ status: 'success', data: result });
-    } catch (_error) {
-      if (_error instanceof DOMException && _error.name === 'AbortError') {
-        return;
-      }
-
-      const errorMessage =
-        _error instanceof Error ? _error.message : '브랜드 목록을 불러오지 못했습니다.';
-
-      setBrandState({ status: 'error', error: errorMessage });
-      console.error('브랜드 목록 호출 실패', _error);
-    }
-  };
-
   const retryGetBrandList = () => {
     setRetryCount((prev) => prev + 1);
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    const getBrandList = async () => {
+      setBrandState({ status: 'loading' });
+
+      try {
+        const result = await fetchBrands(normalizedSearchKeyword, controller.signal);
+
+        setBrandState({ status: 'success', data: result });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return;
+        }
+
+        const errorMessage =
+          error instanceof Error ? error.message : '브랜드 목록을 불러오지 못했습니다.';
+
+        setBrandState({ status: 'error', error: errorMessage });
+        console.error('브랜드 목록 호출 실패', error);
+      }
+    };
+
     getBrandList();
+
+    return () => {
+      controller.abort();
+    };
   }, [normalizedSearchKeyword, retryCount]);
 
   return (
@@ -177,7 +176,7 @@ const BrandSection = () => {
         {isNoData ? (
           <>
             <p>{noDataText}</p>
-            {error && <button onClick={retryGetBrandList}>다시시도</button>}
+            {errorMessage && <button onClick={retryGetBrandList}>다시시도</button>}
           </>
         ) : (
           <BrandList
