@@ -20,11 +20,14 @@ const DEFAULT_FILTERS: BrandFilters = {
 };
 
 type BrandState =
-  { status: 'loading' } | { status: 'success'; data: Brand[] } | { status: 'error'; error: string };
+  | { status: 'loading' }
+  | { status: 'success'; items: Brand[]; totalCount: number }
+  | { status: 'error'; error: string };
 
 const BrandSection = () => {
   const [brandState, setBrandState] = useState<BrandState>({ status: 'loading' });
-  const brandList = brandState.status === 'success' ? brandState.data : [];
+  const brandList = brandState.status === 'success' ? brandState.items : [];
+  const totalCount = brandState.status === 'success' ? brandState.totalCount : 0;
 
   const isLoading = brandState.status === 'loading';
   const errorMessage = brandState.status === 'error' ? brandState.error : null;
@@ -37,7 +40,7 @@ const BrandSection = () => {
   const normalizedSearchKeyword = searchKeyword.trim().toLowerCase();
 
   const [selectedBrandSeq, setSelectedBrandSeq] = useState<number | null>(null);
-  const totalCount = brandList.reduce((acc, brand) => acc + brand.buzzVolume, 0);
+  const totalVolume = brandList.reduce((acc, brand) => acc + brand.buzzVolume, 0);
   const selectedBrand = brandList.find((b) => b.brandSeq === selectedBrandSeq);
   const processedBrandList = brandList
     .filter((brand) => {
@@ -77,13 +80,8 @@ const BrandSection = () => {
 
   const isNoData = processedBrandList.length === 0;
 
-  const noDataText = isLoading
-    ? '로딩중...'
-    : errorMessage
-      ? errorMessage
-      : !isFiltered && brandList.length === 0
-        ? '등록된 브랜드가 없습니다'
-        : '검색 조건에 맞는 브랜드가 없습니다';
+  const noDataText =
+    totalCount === 0 ? '등록된 브랜드가 없습니다' : '검색 조건에 맞는 브랜드가 없습니다';
 
   const handleOrderChange = (value: OrderValue) => {
     if (value !== order) {
@@ -132,7 +130,7 @@ const BrandSection = () => {
       try {
         const result = await fetchBrands(normalizedSearchKeyword, controller.signal);
 
-        setBrandState({ status: 'success', data: result });
+        setBrandState({ ...result, status: 'success' });
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') {
           return;
@@ -166,18 +164,22 @@ const BrandSection = () => {
       />
 
       <p>
-        전체 {brandList.length}개 중 {processedBrandList.length}개
+        전체 {totalCount}개 중 {processedBrandList.length}개
       </p>
-      <p>총 언급량 : {formatInteger(totalCount)}건</p>
+      <p>총 언급량 : {formatInteger(totalVolume)}건</p>
 
       {selectedBrand ? <p>선택된 브랜드: {selectedBrand.brandName}</p> : <p>선택된 브랜드 없음</p>}
 
       <Panel title="브랜드 목록">
-        {isNoData ? (
+        {isLoading ? (
+          <p>로딩중...</p>
+        ) : errorMessage ? (
           <>
-            <p>{noDataText}</p>
-            {errorMessage && <button onClick={retryGetBrandList}>다시시도</button>}
+            <p>{errorMessage}</p>
+            <button onClick={retryGetBrandList}>다시 시도</button>
           </>
+        ) : isNoData ? (
+          <p>{noDataText}</p>
         ) : (
           <BrandList
             brandList={processedBrandList}

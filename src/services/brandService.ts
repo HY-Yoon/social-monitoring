@@ -1,5 +1,10 @@
 import type { Brand } from '@/types/brand';
 
+type BrandListResponse = {
+  items: Brand[];
+  totalCount: number;
+};
+
 const brandList: Brand[] = [
   { brandSeq: 1, brandName: 'Apple', buzzVolume: 1000, buzzGrowth: 10 },
   { brandSeq: 2, brandName: 'Apple Watch', buzzVolume: 2000, buzzGrowth: 25.4 },
@@ -10,7 +15,7 @@ const brandList: Brand[] = [
   { brandSeq: 7, brandName: 'New Balance', buzzVolume: 7000, buzzGrowth: 1234.56 },
 ];
 
-const fetchBrands = (keyword: string, signal: AbortSignal): Promise<Brand[]> => {
+const fetchBrands = (keyword: string, signal: AbortSignal): Promise<BrandListResponse> => {
   return new Promise((resolve, reject) => {
     if (signal.aborted) {
       reject(new DOMException('요청된 작업이 중단되었습니다.', 'AbortError'));
@@ -32,7 +37,11 @@ const fetchBrands = (keyword: string, signal: AbortSignal): Promise<Brand[]> => 
         brand.brandName.toLowerCase().includes(keyword),
       );
 
-      resolve(filteredBrands);
+      if (keyword === 'zero') {
+        resolve({ items: [], totalCount: 0 });
+      } else {
+        resolve({ items: filteredBrands, totalCount: brandList.length });
+      }
     }, delay);
 
     const onAbort = () => {
