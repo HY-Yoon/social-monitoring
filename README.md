@@ -39,13 +39,14 @@ Vue 실무 경험을 바탕으로 React와 Next.js 기반 서비스를 처음부
 
 ### 현재 사용 중
 
-| 분류 | 기술                   |
-| ---- | ---------------------- |
-| UI   | React 19               |
-| 언어 | TypeScript             |
-| 빌드 | Vite 8                 |
-| 린트 | Oxlint                 |
-| 포맷 | Prettier, EditorConfig |
+| 분류        | 기술                   |
+| ----------- | ---------------------- |
+| UI          | React 19               |
+| 언어        | TypeScript             |
+| 빌드        | Vite 8                 |
+| 린트        | Oxlint                 |
+| 포맷        | Prettier, EditorConfig |
+| 스타일·차트 | Tailwind CSS           |
 
 ### 도입 예정
 
@@ -55,7 +56,7 @@ Vue 실무 경험을 바탕으로 React와 Next.js 기반 서비스를 처음부
 | ---------------- | ---------------------------------------------- |
 | 라우팅·서버 상태 | React Router, TanStack Query                   |
 | 클라이언트 상태  | Zustand                                        |
-| 스타일·차트      | Tailwind CSS, shadcn/ui, ECharts               |
+| 스타일·차트      | shadcn/ui, ECharts                             |
 | 백엔드           | Node.js, Fastify, PostgreSQL, Prisma, Zod      |
 | 테스트           | Vitest, React Testing Library, MSW, Playwright |
 | 배포·운영        | Docker, GitHub Actions, Vercel                 |
