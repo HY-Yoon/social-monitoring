@@ -13,16 +13,17 @@ const BrandCard = ({ brand, isSelected, onClick }: BrandCardProps) => {
   return (
     <button
       className={clsx(
-        'flex w-3xs cursor-pointer items-center gap-2 rounded-card border border-card-border p-4',
-        isSelected ? 'bg-card-active' : 'bg-card-background hover:bg-card-hover',
+        'flex w-2xl cursor-pointer items-center gap-2 rounded-card border border-card-border p-4',
+        isSelected ? 'bg-card-active' : 'bg-card hover:bg-card-hover',
       )}
+      aria-pressed={isSelected}
       onClick={onClick}
     >
-      <h3>{brand.brandName}</h3>
-      <p>Buzz Volume: {formatInteger(brand.buzzVolume)}건</p>
-      <p>
+      <strong>{brand.brandName}</strong>
+      <span>Buzz Volume: {formatInteger(brand.buzzVolume)}건</span>
+      <span>
         Buzz Growth: <ChangeRate changeRate={brand.buzzGrowth} unit="%" />
-      </p>
+      </span>
     </button>
   );
 };
