@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import type { OrderValue, RateFilterValue } from '@/types/brand';
-import clsx from 'clsx';
 
 type OrderOption = {
   value: OrderValue;
@@ -65,7 +64,7 @@ const BrandFilter = ({
   };
 
   return (
-    <div className={clsx('flex items-center gap-2')}>
+    <div className="flex items-center gap-2">
       <select value={order} onChange={handleOrderChange}>
         {orderOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -82,13 +81,13 @@ const BrandFilter = ({
       </select>
       <input
         ref={keywordInputRef}
-        className={clsx('rounded-sm border border-gray-400')}
+        className="rounded-sm border border-card-border"
         type="text"
         placeholder="브랜드 검색..."
         value={searchKeyword}
         onChange={handleSearchKeywordChange}
       />
-      <button className={clsx('cursor-pointer')} onClick={handleResetClick}>
+      <button className="cursor-pointer" onClick={handleResetClick}>
         필터 초기화
       </button>
     </div>

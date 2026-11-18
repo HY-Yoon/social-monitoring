@@ -1,6 +1,5 @@
 import type { Brand } from '@/types/brand';
 import BrandCard from './BrandCard';
-import clsx from 'clsx';
 
 type BrandListProps = {
   brandList: Brand[];
@@ -10,7 +9,7 @@ type BrandListProps = {
 
 const BrandList = ({ brandList, selectedBrandSeq, onBrandSelect }: BrandListProps) => {
   return (
-    <div className={clsx('flex flex-col gap-2')}>
+    <div className="flex flex-col gap-2">
       {brandList.map((brand) => (
         <BrandCard
           key={brand.brandSeq}
