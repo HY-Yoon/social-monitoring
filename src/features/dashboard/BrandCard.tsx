@@ -13,7 +13,7 @@ const BrandCard = ({ brand, isSelected, onClick }: BrandCardProps) => {
   return (
     <button
       className={clsx(
-        'p-4 rounded-card flex items-center gap-2 border border-card-border w-3xs cursor-pointer',
+        'flex w-3xs cursor-pointer items-center gap-2 rounded-card border border-card-border p-4',
         isSelected ? 'bg-card-active' : 'bg-card-background hover:bg-card-hover',
       )}
       onClick={onClick}

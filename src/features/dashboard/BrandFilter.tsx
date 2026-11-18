@@ -82,7 +82,7 @@ const BrandFilter = ({
       </select>
       <input
         ref={keywordInputRef}
-        className={clsx('border border-gray-400 rounded-sm')}
+        className={clsx('rounded-sm border border-gray-400')}
         type="text"
         placeholder="브랜드 검색..."
         value={searchKeyword}
