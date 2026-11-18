@@ -30,9 +30,9 @@ const orderOptions: OrderOption[] = [
 
 const rateFilterOptions: RateFilterOption[] = [
   { value: 'all', label: '전체' },
-  { value: 'positive', label: '증가' },
-  { value: 'negative', label: '감소' },
-  { value: 'neutral', label: '변화없음' },
+  { value: 'increase', label: '증가' },
+  { value: 'decrease', label: '감소' },
+  { value: 'unchanged', label: '변화없음' },
 ];
 
 const BrandFilter = ({

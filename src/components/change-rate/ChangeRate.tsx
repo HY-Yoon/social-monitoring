@@ -9,13 +9,13 @@ type ChangeRateProps = {
 const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
   const { changeIcon, growthType, displayRate } = getChangeRateInfo(changeRate);
 
-  const isNeutral = growthType === 'neutral';
+  const isUnchanged = growthType === 'unchanged';
 
   return (
     <span className={`is-${growthType} change-rate`}>
-      <span>{isNeutral ? '-' : `${changeIcon}${displayRate}`}</span>
+      <span>{isUnchanged ? '-' : `${changeIcon}${displayRate}`}</span>
 
-      {unit && !isNeutral && <span>{unit}</span>}
+      {unit && !isUnchanged && <span>{unit}</span>}
     </span>
   );
 };

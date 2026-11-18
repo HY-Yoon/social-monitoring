@@ -3,10 +3,10 @@
   align-items: center;
 }
 
-.is-positive {
+.is-increase {
   color: #31a861;
 }
 
-.is-negative {
+.is-decrease {
   color: #ff912d;
 }
