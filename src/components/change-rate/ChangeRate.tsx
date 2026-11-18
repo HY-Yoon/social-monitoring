@@ -1,4 +1,4 @@
-import './ChangeRate.css';
+import clsx from 'clsx';
 import { getChangeRateInfo } from '@/utils/changeRate';
 
 type ChangeRateProps = {
@@ -11,8 +11,14 @@ const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
 
   const isUnchanged = growthType === 'unchanged';
 
+  const growthTypeClass = {
+    increase: 'text-increase',
+    decrease: 'text-decrease',
+    unchanged: null,
+  };
+
   return (
-    <span className={`is-${growthType} change-rate`}>
+    <span className={clsx('inline-flex items-center', growthTypeClass[growthType])}>
       <span>{isUnchanged ? '-' : `${changeIcon}${displayRate}`}</span>
 
       {unit && !isUnchanged && <span>{unit}</span>}
