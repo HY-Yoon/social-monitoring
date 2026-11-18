@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --default-font-family: 'Pretendard';
+  --default-font-family: 'Pretendard', system-ui, sans-serif;
 
   --color-increase: #31a861;
   --color-decrease: #ff912d;
