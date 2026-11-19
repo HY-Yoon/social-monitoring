@@ -1,5 +1,12 @@
-import './ChangeRate.css';
+import clsx from 'clsx';
 import { getChangeRateInfo } from '@/utils/changeRate';
+import type { GrowthType } from '@/types/brand';
+
+const growthTypeClass: Record<GrowthType, string | null> = {
+  increase: 'text-increase',
+  decrease: 'text-decrease',
+  unchanged: null,
+};
 
 type ChangeRateProps = {
   changeRate: number;
@@ -9,13 +16,13 @@ type ChangeRateProps = {
 const ChangeRate = ({ changeRate, unit }: ChangeRateProps) => {
   const { changeIcon, growthType, displayRate } = getChangeRateInfo(changeRate);
 
-  const isNeutral = growthType === 'neutral';
+  const isUnchanged = growthType === 'unchanged';
 
   return (
-    <span className={`is-${growthType} change-rate`}>
-      <span>{isNeutral ? '-' : `${changeIcon}${displayRate}`}</span>
+    <span className={clsx('inline-flex items-center', growthTypeClass[growthType])}>
+      <span>{isUnchanged ? '-' : `${changeIcon}${displayRate}`}</span>
 
-      {unit && !isNeutral && <span>{unit}</span>}
+      {unit && !isUnchanged && <span>{unit}</span>}
     </span>
   );
 };

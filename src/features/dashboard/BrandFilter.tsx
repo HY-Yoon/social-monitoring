@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import './BrandFilter.css';
 import type { OrderValue, RateFilterValue } from '@/types/brand';
 
 type OrderOption = {
@@ -30,9 +29,9 @@ const orderOptions: OrderOption[] = [
 
 const rateFilterOptions: RateFilterOption[] = [
   { value: 'all', label: '전체' },
-  { value: 'positive', label: '증가' },
-  { value: 'negative', label: '감소' },
-  { value: 'neutral', label: '변화없음' },
+  { value: 'increase', label: '증가' },
+  { value: 'decrease', label: '감소' },
+  { value: 'unchanged', label: '변화없음' },
 ];
 
 const BrandFilter = ({
@@ -65,7 +64,7 @@ const BrandFilter = ({
   };
 
   return (
-    <div className="brand-filter">
+    <div className="flex items-center gap-2">
       <select value={order} onChange={handleOrderChange}>
         {orderOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -82,12 +81,15 @@ const BrandFilter = ({
       </select>
       <input
         ref={keywordInputRef}
+        className="rounded-sm border border-card-border"
         type="text"
         placeholder="브랜드 검색..."
         value={searchKeyword}
         onChange={handleSearchKeywordChange}
       />
-      <button onClick={handleResetClick}>필터 초기화</button>
+      <button className="cursor-pointer" onClick={handleResetClick}>
+        필터 초기화
+      </button>
     </div>
   );
 };

@@ -7,4 +7,6 @@ export type Brand = {
 
 export type OrderValue = 'volume' | 'growth' | 'name';
 
-export type RateFilterValue = 'all' | 'positive' | 'negative' | 'neutral';
+export type GrowthType = 'increase' | 'decrease' | 'unchanged';
+
+export type RateFilterValue = 'all' | GrowthType;

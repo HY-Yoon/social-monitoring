@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@theme {
+  --default-font-family: 'Pretendard', system-ui, sans-serif;
+
+  --color-increase: #31a861;
+  --color-decrease: #ff912d;
+  --color-card-border: #dcdfe4;
+  --color-card: #ffffff;
+  --color-card-hover: #f5f6f8;
+  --color-card-active: #f5fbfd;
+  --radius-card: 12px;
+}
