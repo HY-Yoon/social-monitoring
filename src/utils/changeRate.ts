@@ -1,8 +1,9 @@
+import type { GrowthType } from '@/types/brand';
 import { formatDecimal } from './format';
 
 type ChangeRateInfo = {
   changeIcon: string;
-  growthType: 'increase' | 'decrease' | 'unchanged';
+  growthType: GrowthType;
   displayRate: string;
 };
 
