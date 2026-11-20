@@ -27,9 +27,11 @@ const BrandSection = () => {
   const [order, setOrder] = useState(DEFAULT_FILTERS.order);
   const [rateFilter, setRateFilter] = useState(DEFAULT_FILTERS.rateFilter);
 
-  const [selectedBrandSeq, setSelectedBrandSeq] = useState<number | null>(null);
   const totalVolume = brandList.reduce((acc, brand) => acc + brand.buzzVolume, 0);
+
+  const [selectedBrandSeq, setSelectedBrandSeq] = useState<number | null>(null);
   const selectedBrand = brandList.find((b) => b.brandSeq === selectedBrandSeq);
+
   const processedBrandList = brandList
     .filter((brand) => {
       // 증감률 필터링
@@ -53,14 +55,6 @@ const BrandSection = () => {
       }
     });
 
-  const clearSelection = () => {
-    setSelectedBrandSeq(null);
-  };
-
-  const handleBrandSelect = (brandSeq: number) => {
-    setSelectedBrandSeq((value) => (value === brandSeq ? null : brandSeq));
-  };
-
   const isFiltered =
     order !== DEFAULT_FILTERS.order ||
     rateFilter !== DEFAULT_FILTERS.rateFilter ||
@@ -70,6 +64,14 @@ const BrandSection = () => {
 
   const noDataText =
     totalCount === 0 ? '등록된 브랜드가 없습니다' : '검색 조건에 맞는 브랜드가 없습니다';
+
+  const clearSelection = () => {
+    setSelectedBrandSeq(null);
+  };
+
+  const handleBrandSelect = (brandSeq: number) => {
+    setSelectedBrandSeq((value) => (value === brandSeq ? null : brandSeq));
+  };
 
   const handleOrderChange = (value: OrderValue) => {
     if (value !== order) {
