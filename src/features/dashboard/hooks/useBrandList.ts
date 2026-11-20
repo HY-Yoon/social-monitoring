@@ -1,3 +1,4 @@
+import useDebounce from '@/hooks/useDebounce';
 import { fetchBrands } from '@/services/brandService';
 import type { Brand } from '@/types/brand';
 import { useEffect, useState } from 'react';
@@ -28,6 +29,8 @@ const useBrandList = (searchKeyword: string): BrandListType => {
 
   const normalizedSearchKeyword = searchKeyword.trim().toLowerCase();
 
+  const debouncedKeyword = useDebounce(normalizedSearchKeyword);
+
   const retryGetBrandList = () => {
     setRetryCount((prev) => prev + 1);
   };
@@ -39,7 +42,7 @@ const useBrandList = (searchKeyword: string): BrandListType => {
       setBrandState({ status: 'loading' });
 
       try {
-        const result = await fetchBrands(normalizedSearchKeyword, controller.signal);
+        const result = await fetchBrands(debouncedKeyword, controller.signal);
 
         setBrandState({ ...result, status: 'success' });
       } catch (error) {
@@ -60,7 +63,7 @@ const useBrandList = (searchKeyword: string): BrandListType => {
     return () => {
       controller.abort();
     };
-  }, [normalizedSearchKeyword, retryCount]);
+  }, [debouncedKeyword, retryCount]);
 
   return {
     brandList,
