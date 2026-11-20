@@ -88,11 +88,16 @@ src/
 │   └── panel/           #   제목 + children 섹션
 ├── features/            # 도메인 기능
 │   └── dashboard/
-│       ├── BrandSection.tsx   # 필터·선택 state 보유, 목록 계산
-│       ├── BrandFilter.tsx    # 정렬·필터·검색 UI (state 없음)
-│       ├── BrandList.tsx      # 목록 표시 전용
-│       └── BrandCard.tsx      # 브랜드 카드
+│       ├── hooks/
+│       │   └── useBrandList.ts  # 검색어로 브랜드 목록 조회 (정규화·디바운스·취소·재시도)
+│       ├── BrandSection.tsx     # 필터·선택 state 보유, 목록 계산
+│       ├── BrandFilter.tsx      # 정렬·필터·검색 UI (state 없음)
+│       ├── BrandList.tsx        # 목록 표시 전용
+│       └── BrandCard.tsx        # 브랜드 카드
+├── hooks/               # 도메인과 무관한 범용 Hook
+│   └── useDebounce.ts   #   값을 지정한 시간 뒤에 반영
 ├── services/            # API 호출 (현재는 지연·실패를 흉내 내는 가짜 API)
+├── styles/              # Tailwind 진입점과 디자인 토큰
 ├── types/               # 도메인 타입
 ├── utils/               # 숫자 포맷, 증감률 판정
 ├── App.tsx
@@ -103,6 +108,7 @@ src/
 - `features/`에는 기능 단위로 도메인 컴포넌트를 묶습니다. state를 가진 컴포넌트와 표시만 하는 컴포넌트를 구분합니다.
 - `services/`는 서버 통신을 담당합니다. 컴포넌트는 데이터를 어디서 가져오는지 모르고, 이후 MSW·실제 API로 바꿔도 컴포넌트는 그대로 둡니다.
 - import 경로: 같은 폴더 안은 상대경로(`./BrandCard`), 폴더 밖은 경로 별칭(`@/utils/format`)을 사용합니다.
+- Hook은 특정 기능에서만 쓰면 해당 기능 폴더의 `hooks/`에, 도메인과 무관하면 `src/hooks/`에 둡니다.
 
 <br>
 
@@ -121,6 +127,11 @@ src/
 | **Effect는 React 바깥과 동기화할 때만 쓴다.** 사용자 행동의 결과는 이벤트 핸들러에서, "화면이 이 상태인 동안 유지돼야 하는 것"만 Effect에서 처리한다. 이전 요청 취소는 cleanup에 맡긴다. | 검색어·재시도에 맞춰 목록 조회, cleanup에서 `AbortController.abort()`    | [#12](https://github.com/HY-Yoon/social-monitoring/pull/12)                                                          |
 | **로딩·에러·성공은 동시에 존재할 수 없도록 타입으로 막는다.**                                                                                                                            | `status`로 구분하는 discriminated union으로 조회 상태 관리               | [#12](https://github.com/HY-Yoon/social-monitoring/pull/12)                                                          |
 | **빈 화면 문구는 구현이 아니라 사용자 관점의 의미로 구분한다.** 어떤 조건이 서버/화면에서 걸러지는지는 사용자가 알 수 없다.                                                              | 응답에 `totalCount`를 포함해 "등록된 브랜드 없음"과 "조건 불일치"를 구분 | [#12](https://github.com/HY-Yoon/social-monitoring/pull/12)                                                          |
+| **디자인 토큰은 색 이름이 아니라 용도로 짓는다.** 값이 바뀌어도 이름은 유지된다.                                                                                                         | `--color-increase`, `--color-card-border`                                | [#14](https://github.com/HY-Yoon/social-monitoring/pull/14)                                                          |
+| **빠짐없이 처리해야 하는 분기는 컴파일러가 누락을 잡는 형태로 작성한다.**                                                                                                                | 증감 방향별 색상을 `Record<GrowthType, ...>`로 매핑                      | [#14](https://github.com/HY-Yoon/social-monitoring/pull/14)                                                          |
+| **Custom Hook은 세부 사항을 이름 뒤로 숨길 수 있을 때만 만든다.** 값과 변경 함수를 모두 반환해야 한다면 숨겨지는 것이 없으므로 만들지 않는다.                                            | 조회 로직은 `useBrandList`로 분리, 필터 state는 컴포넌트에 유지          | [#16](https://github.com/HY-Yoon/social-monitoring/pull/16)                                                          |
+| **Hook은 필요한 동작만 노출한다.** 내부 `setState`를 그대로 반환하지 않는다.                                                                                                             | `useBrandList`는 상태 전환 대신 `retry`만 노출                           | [#16](https://github.com/HY-Yoon/social-monitoring/pull/16)                                                          |
+| **화면에서 보고 조작하는 값은 즉시, 서버로 보내는 값만 늦게 반영한다.**                                                                                                                  | 입력창·선택 해제·필터 여부는 입력 중인 값, 조회는 디바운스된 값 사용     | [#16](https://github.com/HY-Yoon/social-monitoring/pull/16)                                                          |
 
 <br>
 
