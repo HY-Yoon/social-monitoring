@@ -8,7 +8,7 @@ type BrandState =
   | { status: 'success'; items: Brand[]; totalCount: number }
   | { status: 'error'; error: string };
 
-type BrandListType = {
+type UseBrandListResult = {
   brandList: Brand[];
   totalCount: number;
   isLoading: boolean;
@@ -16,7 +16,7 @@ type BrandListType = {
   retry: () => void;
 };
 
-const useBrandList = (searchKeyword: string): BrandListType => {
+const useBrandList = (searchKeyword: string): UseBrandListResult => {
   const [brandState, setBrandState] = useState<BrandState>({ status: 'loading' });
 
   const brandList = brandState.status === 'success' ? brandState.items : [];
