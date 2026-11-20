@@ -29,7 +29,7 @@ const useBrandList = (searchKeyword: string): BrandListType => {
 
   const normalizedSearchKeyword = searchKeyword.trim().toLowerCase();
 
-  const debouncedKeyword = useDebounce(normalizedSearchKeyword);
+  const debouncedKeyword = useDebounce(normalizedSearchKeyword, 500);
 
   const retryGetBrandList = () => {
     setRetryCount((prev) => prev + 1);
