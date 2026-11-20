@@ -20,18 +20,18 @@ const DEFAULT_FILTERS: BrandFilters = {
 };
 
 const BrandSection = () => {
+  // state
   const [searchKeyword, setSearchKeyword] = useState(DEFAULT_FILTERS.searchKeyword);
-
-  const { brandList, totalCount, isLoading, errorMessage, retry } = useBrandList(searchKeyword);
-
   const [order, setOrder] = useState(DEFAULT_FILTERS.order);
   const [rateFilter, setRateFilter] = useState(DEFAULT_FILTERS.rateFilter);
-
-  const totalVolume = brandList.reduce((acc, brand) => acc + brand.buzzVolume, 0);
-
   const [selectedBrandSeq, setSelectedBrandSeq] = useState<number | null>(null);
-  const selectedBrand = brandList.find((b) => b.brandSeq === selectedBrandSeq);
 
+  // hook
+  const { brandList, totalCount, isLoading, errorMessage, retry } = useBrandList(searchKeyword);
+
+  // 파생값
+  const totalVolume = brandList.reduce((acc, brand) => acc + brand.buzzVolume, 0);
+  const selectedBrand = brandList.find((b) => b.brandSeq === selectedBrandSeq);
   const processedBrandList = brandList
     .filter((brand) => {
       // 증감률 필터링
